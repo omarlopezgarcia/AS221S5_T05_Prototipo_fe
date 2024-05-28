@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{ loan && loan.id ? 'Editar préstamo' : 'Nuevo préstamo' }}</h4>
+  </div>
+  <div class="modal-body">
+    <form [formGroup]="loanForm">
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dateReturnDate" formControlName="returnDate"
+                [ngClass]="{'is-invalid': f['returnDate'].errors && (f['returnDate'].touched || f['returnDate'].dirty)}">
+            <label for="dateReturnDate">Fecha Devolucion</label>
+        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectRol" formControlName="user"
+                [ngClass]="{'is-invalid': f['user'].errors && (f['user'].touched || f['user'].dirty)}"
+                [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let user of users" [ngValue]="user">{{user.names}}, {{user.lastName | uppercase}}
+                </option>
+            </select>
+            <label for="selectRol" class="form-label">Usuario</label>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" value="9" id="checkLibrarian" formControlName="librarian"
+                checked>
+            <label class="form-check-label" for="checkLibrarian">Bibliotecario</label>
+        </div>
+        <div class="formDetalle">
+            <div class="form-floating mb-3">
+                <select class="form-select" id="selectBook" formControlName="book"
+                    [ngClass]="{'is-invalid': f['book'].errors && (f['book'].touched || f['book'].dirty)}"
+                    [compareWith]="compareFn">
+                    <option value="" disabled selected>Selecciona...</option>
+                    <option *ngFor="let book of books" [ngValue]="book">{{book.title}}</option>
+                </select>
+                <label for="selectBook" class="form-label">Libros</label>
+            </div>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="numAmount" formControlName="amount"
+                    [ngClass]="{'is-invalid': f['amount'].errors && (f['amount'].touched || f['amount'].dirty)}">
+                <label for="numAmount">Cantidad</label>
+            </div>
+            <button class="btn btn-warning" (click)="onAddDetail()">Agregar Detalle</button>
+        </div>
+    </form>
+    <div class="tableDetalle">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Libro</th>
+                    <th scope="col">Cantidad</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let detail of loanDetails; let i = index">
+                    <td>{{ getBookTitle(detail.book) }}</td>
+                    <td>{{ detail.amount }}</td>
+                    <td><button class="btn btn-danger" (click)="onRemoveDetail(i)">Eliminar</button></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveLoan()">{{loan && loan.id ? 'Actualizar' :
+        'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

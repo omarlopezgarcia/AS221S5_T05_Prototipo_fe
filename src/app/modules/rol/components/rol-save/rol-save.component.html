@@ -1,0 +1,23 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{rol && rol.id ? 'Editar rol' : 'Nuevo rol'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="rolForm">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtNames" formControlName="names" autocomplete="off"
+                [ngClass]="{'is-invalid': f['names'].errors && (f['names'].touched || f['names'].dirty)}">
+            <label for="txtNames">Nombre</label>
+            <div *ngIf="f['names'].errors && (f['names'].touched || f['names'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['names'].hasError('required')">El nombre del rol es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <textarea type="text" class="form-control" id="txtDescriptions" formControlName="descriptions" autocomplete="off"></textarea>
+            <label for="txtDescriptions">Descripcion</label>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveCategory()">{{rol && rol.id ? 'Actualizar' : 'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

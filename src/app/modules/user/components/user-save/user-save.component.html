@@ -1,0 +1,111 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{user && user.id ? 'Editar usuario' : 'Nuevo usuario'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="userForm">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtNames" formControlName="names" autocomplete="off"
+                [ngClass]="{'is-invalid': f['names'].errors && (f['names'].touched || f['names'].dirty)}">
+            <label for="txtNames">Nombre</label>
+            <div *ngIf="f['names'].errors && (f['names'].touched || f['names'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['names'].hasError('required')">El nombre es obligatorio</span>
+                <span *ngIf="f['names'].hasError('pattern')">El nombre solo debe contener letras mayúsculas y espacios</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtLastName" formControlName="lastName" autocomplete="off"
+                [ngClass]="{'is-invalid': f['lastName'].errors && (f['lastName'].touched || f['lastName'].dirty)}">
+            <label for="txtLastName">Apellidos <span>*</span></label>
+            <div *ngIf="f['lastName'].errors && (f['lastName'].touched || f['lastName'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['lastName'].hasError('required')">El apellido es obligatorio</span>
+                <span *ngIf="f['lastName'].hasError('pattern')">El apellido solo debe contener letras mayúsculas y espacios</span>
+            </div>
+        </div>        
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectDocumentType" formControlName="documentType" [ngClass]="{'is-invalid': f['documentType'].errors && (f['documentType'].touched || f['documentType'].dirty)}">
+                <option value="" disabled selected>Selecciona...</option>
+                <option value="DNI">DNI</option>
+                <option value="CNE">CNE</option>
+            </select>
+            <label for="selectDocumentType" class="form-label">Tipo Documento</label>
+            <div *ngIf="f['documentType'].errors && (f['documentType'].touched || f['documentType'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['documentType'].hasError('required')">El tipo de documento es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="numDocumentNumber" formControlName="documentNumber" autocomplete="off"
+                [ngClass]="{'is-invalid': f['documentNumber'].errors && (f['documentNumber'].touched || f['documentNumber'].dirty)}">
+            <label for="numDocumentNumber">Nº Documento</label>
+            <div *ngIf="f['documentNumber'].errors && (f['documentNumber'].touched || f['documentNumber'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['documentNumber'].hasError('required')">El número de documento es obligatorio</span>
+                <span *ngIf="f['documentNumber'].hasError('exactLengthDNI')">Debe ingresar exactamente 8 dígitos para DNI</span>
+                <span *ngIf="f['documentNumber'].hasError('exactLengthCNE')">Debe ingresar exactamente 12 dígitos para CNE</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectRol" formControlName="rol" [ngClass]="{'is-invalid': f['rol'].errors && (f['rol'].touched || f['rol'].dirty)}" [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let rol of roles" [ngValue]="rol">{{rol.names}}</option>
+            </select>
+            <label for="selectRol" class="form-label">Rol</label>
+            <div *ngIf="f['rol'].errors && (f['rol'].touched || f['rol'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['rol'].hasError('required')">El rol es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectUbigeo" formControlName="ubigeo" [ngClass]="{'is-invalid': f['ubigeo'].errors && (f['ubigeo'].touched || f['ubigeo'].dirty)}" [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let ubigeo of ubigeos" [ngValue]="ubigeo">{{ubigeo.district}}, {{ubigeo.province}}, {{ubigeo.department}}</option>
+            </select>
+            <label for="selectUbigeo" class="form-label">Ubigeo</label>
+            <div *ngIf="f['ubigeo'].errors && (f['ubigeo'].touched || f['ubigeo'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['ubigeo'].hasError('required')">El ubigeo es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtEmail" formControlName="email" autocomplete="off"
+                [ngClass]="{'is-invalid': f['email'].errors && (f['email'].touched || f['email'].dirty)}">
+            <label for="txtEmail">Correo Electrónico</label>
+            <div *ngIf="f['email'].errors && (f['email'].touched || f['email'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['email'].hasError('pattern') && !f['email'].hasError('required')">Por favor, ingrese un correo electrónico válido.</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtUserName" formControlName="userName" autocomplete="off"
+                [ngClass]="{'is-invalid': f['userName'].errors && (f['userName'].touched || f['userName'].dirty)}">
+            <label for="txtUserName">Nombre de Usuario</label>
+            <div *ngIf="f['userName'].errors && (f['userName'].touched || f['userName'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['userName'].hasError('required')">El nombre de usuario es obligatorio</span>
+                <span *ngIf="f['userName'].hasError('pattern')">El nombre de usuario solo puede contener letras y números, y no se permiten espacios ni caracteres especiales</span>
+            </div>
+        </div>        
+        <div class="form-floating mb-3">
+            <input type="password" class="form-control" id="txtPassword" formControlName="passwords" autocomplete="off"
+                [ngClass]="{'is-invalid': f['passwords'].errors && (f['passwords'].touched || f['passwords'].dirty)}">
+            <label for="txtPassword">Contraseña</label>
+            <div *ngIf="f['passwords'].errors && (f['passwords'].touched || f['passwords'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['passwords'].hasError('required')">La contraseña es obligatoria.</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtCellPhone" formControlName="cellPhone" autocomplete="off"
+                [ngClass]="{'is-invalid': f['cellPhone'].errors && (f['cellPhone'].touched || f['cellPhone'].dirty)}">
+            <label for="txtCellPhone">Número de Celular</label>
+            <div *ngIf="f['cellPhone'].errors && (f['cellPhone'].touched || f['cellPhone'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['cellPhone'].hasError('pattern') && !f['cellPhone'].hasError('required')">El número de celular debe empezar con 9 y tener 9 dígitos.</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dateBirth" formControlName="birthDate"
+                [ngClass]="{'is-invalid': f['birthDate'].errors && (f['birthDate'].touched || f['birthDate'].dirty)}">
+            <label for="dateBirth">Fecha de Nacimiento</label>
+            <div *ngIf="f['birthDate'].errors && (f['birthDate'].touched || f['birthDate'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['birthDate'].hasError('minAge')">La edad mínima permitida es de 6 años.</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveUser()">{{user && user.id ? 'Actualizar' : 'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

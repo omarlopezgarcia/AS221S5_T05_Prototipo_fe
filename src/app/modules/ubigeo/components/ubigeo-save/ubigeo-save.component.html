@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{ubigeo && ubigeo.id ? 'Editar ubigeo' : 'Nuevo ubigeo'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="ubigeoForm">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtDistrict" formControlName="district" autocomplete="off">
+            <label for="txtDistrict">Distrito</label>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtProvince" formControlName="province" autocomplete="off"
+                [ngClass]="{'is-invalid': f['province'].errors && (f['province'].touched || f['province'].dirty)}">
+            <label for="txtProvince">Provincia</label>
+            <div *ngIf="f['province'].errors && (f['province'].touched || f['province'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['province'].hasError('required')">La provincia es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtDepartment" formControlName="department" autocomplete="off"
+                [ngClass]="{'is-invalid': f['department'].errors && (f['department'].touched || f['department'].dirty)}">
+            <label for="txtDepartment">Departamento</label>
+            <div *ngIf="f['department'].errors && (f['department'].touched || f['department'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['department'].hasError('required')">El departamento es obligatorio</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveCategory()">{{ubigeo && ubigeo.id ? 'Actualizar' : 'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

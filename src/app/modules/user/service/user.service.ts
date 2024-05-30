@@ -8,36 +8,36 @@ import { environment } from 'src/environments/environment';
 })
 export class UserService {
 
-  private url: string = environment.apiUrl+'/';
+  private url: string = environment.apiUrl+'/v2';
 
   constructor(private http: HttpClient) { }
 
   getActive(){
-    return this.http.get<IUser[]>(`${this.url}users/active`)
+    return this.http.get<IUser[]>(`${this.url}/users/active`)
   }
 
   getInactive(){
-    return this.http.get<IUser[]>(`${this.url}users/inactive`)
+    return this.http.get<IUser[]>(`${this.url}/users/inactive`)
   }
 
   created(data: IUserDto){
-    return this.http.post<IUser>(`${this.url}user/`, data);
+    return this.http.post<IUser>(`${this.url}/user/`, data);
   }
 
   update(id: number, data: IUserDto){
-    return this.http.put<IUser>(`${this.url}user/${id}`, data);
+    return this.http.put<IUser>(`${this.url}/user/${id}`, data);
   }
 
   removed(id: number){
-    return this.http.delete<void>(`${this.url}user/removed/${id}`)
+    return this.http.delete<void>(`${this.url}/user/removed/${id}`)
   }
 
   restore(id: number){
-    return this.http.delete<void>(`${this.url}user/restore/${id}`)
+    return this.http.delete<void>(`${this.url}/user/restore/${id}`)
   }
 
   delete(id: number){
-    return this.http.delete<void>(`${this.url}user/${id}`)
+    return this.http.delete<void>(`${this.url}/user/${id}`)
   }
   
 }

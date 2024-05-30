@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AS221S4_T16_fe": {
+    "AS221S5_T05_prototype": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/as221-s4-t16-fe",
+            "outputPath": "dist/as221-s5-t05-prototype",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": [
@@ -71,10 +71,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AS221S4_T16_fe:build:production"
+              "browserTarget": "AS221S5_T05_prototype:build:production"
             },
             "development": {
-              "browserTarget": "AS221S4_T16_fe:build:development"
+              "browserTarget": "AS221S5_T05_prototype:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -82,7 +82,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AS221S4_T16_fe:build"
+            "browserTarget": "AS221S5_T05_prototype:build"
           }
         },
         "test": {

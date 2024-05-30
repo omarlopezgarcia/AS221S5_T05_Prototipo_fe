@@ -1,1 +1,55 @@
-<p>country works!</p>
+<h1>Nacionalidades</h1>
+<div class="d-flex justify-content-between align-items-center">
+    <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ejm: Peru" #input>
+        <mat-hint style="color: #a3a3a3;">Buscado por País</mat-hint>
+    </mat-form-field>
+    <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ejm: PE" #input>
+        <mat-hint style="color: #a3a3a3;">Buscado por Código</mat-hint>
+    </mat-form-field>
+    <div class="d-flex gap-2">
+        <!-- <button type="button" class="btn btn-dark" (click)="toggleStatus()">{{txtStatus}}</button> -->
+        <button type="button" class="btn btn-success" (click)="openSaveModal()" [disabled]="txtStatus=='Activos'">Nueva Nacionalidad</button>
+    </div>
+</div>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <ng-container matColumnDef="names">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombres </th>
+            <td mat-cell *matCellDef="let element"> {{element.names}} </td>
+        </ng-container>
+        <ng-container matColumnDef="code">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Código del País </th>
+            <td mat-cell *matCellDef="let element"> {{element.code}} </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div *ngIf="txtStatus=='Inactivos'">
+                        <button mat-menu-item (click)="openSaveModal(element)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteCountry(element)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Eliminar</span>
+                        </button>
+                    </div>
+                </mat-menu>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10,25,50]" showFirstLastButtons>
+    </mat-paginator>
+</div>

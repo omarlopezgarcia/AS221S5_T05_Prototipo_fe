@@ -5,11 +5,11 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
+import { IUbigeo } from '../ubigeo/model/ubigeo.model';
 import { IUser } from './model/user.model';
 import { UserService } from './service/user.service';
 import { UserSaveComponent } from './components/user-save/user-save.component';
 import Swal from 'sweetalert2';
-import { ExportService } from './service/export.service';
 
 @Component({
   selector: 'app-user',
@@ -28,7 +28,7 @@ export class UserComponent implements AfterViewInit, OnInit {
 
   txtStatus: string = "Inactivos";
 
-  constructor(private exportService: ExportService, private userService: UserService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
+  constructor(private userService: UserService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.getActive();
@@ -42,16 +42,6 @@ export class UserComponent implements AfterViewInit, OnInit {
     this.paginator._intl.nextPageLabel = "Siguiente";
     this.paginator._intl.previousPageLabel = "Pagina anterior";
     this.paginator._intl.lastPageLabel = "Última página";
-  }
-
-  exportToExcel(): void {
-    const dataToExport = this.dataSource.data;
-    this.exportService.exportToExcel(dataToExport, 'usuarios');
-  }
-
-  exportToCSV(): void {
-    const dataToExport = this.dataSource.data;
-    this.exportService.exportToCSV(dataToExport, 'usuarios');
   }
 
   applyFilter(event: Event) {

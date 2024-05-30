@@ -15,7 +15,7 @@
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="txtLastName" formControlName="lastName" autocomplete="off"
                 [ngClass]="{'is-invalid': f['lastName'].errors && (f['lastName'].touched || f['lastName'].dirty)}">
-            <label for="txtLastName">Apellidos <span>*</span></label>
+            <label for="txtLastName">Apellidos</label>
             <div *ngIf="f['lastName'].errors && (f['lastName'].touched || f['lastName'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['lastName'].hasError('required')">El apellido es obligatorio</span>
                 <span *ngIf="f['lastName'].hasError('pattern')">El apellido solo debe contener letras mayúsculas y espacios</span>

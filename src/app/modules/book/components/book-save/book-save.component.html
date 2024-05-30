@@ -1,0 +1,67 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{book && book.id ? 'Editar libro' : 'Nuevo libro'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="bookForm">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtTitle" formControlName="title" autocomplete="off"
+                [ngClass]="{'is-invalid': f['title'].errors && (f['title'].touched || f['title'].dirty)}">
+            <label for="txtTitle">Titulo</label>
+            <div *ngIf="f['title'].errors && (f['title'].touched || f['title'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['title'].hasError('required')">El titulo es obligatorio</span>
+                <span *ngIf="f['title'].hasError('pattern')">El titulo debe ser uno válido</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="txtStock" formControlName="stock" autocomplete="off"
+                [ngClass]="{'is-invalid': f['stock'].errors && (f['stock'].touched || f['stock'].dirty)}">
+            <label for="txtStock">Stock</label>
+            <div *ngIf="f['stock'].errors && (f['stock'].touched || f['stock'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['stock'].hasError('required')">El stock es obligatorio</span>
+                <span *ngIf="f['stock'].hasError('pattern')">El stock solo puede almacenar números</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="txtIsbn" formControlName="isbn" autocomplete="off"
+                (input)="onIsbnInput($event)"
+                [ngClass]="{'is-invalid': f['isbn'].errors && (f['isbn'].touched || f['isbn'].dirty)}" maxLength="13">
+            <label for="txtIsbn">ISBN</label>
+            <div *ngIf="f['isbn'].errors && (f['isbn'].touched || f['isbn'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['isbn'].hasError('required')">El ISBN es obligatorio</span>
+                <span *ngIf="f['isbn'].hasError('pattern')">El ISBN solo puede almacenar números. (Máx 13)</span>
+            </div>
+            <div>{{ characterCount }}/13 caracteres</div>
+        </div>
+
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectCategory" formControlName="category"
+                [ngClass]="{'is-invalid': f['category'].errors && (f['category'].touched || f['category'].dirty)}"
+                [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let category of category" [ngValue]="category">{{category.names}}</option>
+            </select>
+            <label for="selectCategory" class="form-label">Categoria</label>
+            <div *ngIf="f['category'].errors && (f['category'].touched || f['category'].dirty)"
+                class="invalid-feedback">
+                <span *ngIf="f['category'].hasError('required')">La categoría es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectAuthor" formControlName="author"
+                [ngClass]="{'is-invalid': f['author'].errors && (f['author'].touched || f['author'].dirty)}"
+                [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let author of author" [ngValue]="author">{{author.fullname}}</option>
+            </select>
+            <label for="selectAuthor" class="form-label">Autor</label>
+            <div *ngIf="f['author'].errors && (f['author'].touched || f['author'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['author'].hasError('required')">El author es obligatorio (puedes buscar Anónimo).</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveBook()">{{book && book.id ? 'Actualizar' :
+        'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

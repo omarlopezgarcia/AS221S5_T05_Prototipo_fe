@@ -1,0 +1,31 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{author && author.id ? 'Editar autor' : 'Nuevo autor'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="authorForm">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtFullname" formControlName="fullname" autocomplete="off"
+                [ngClass]="{'is-invalid': f['fullname'].errors && (f['fullname'].touched || f['fullname'].dirty)}">
+            <label for="txtFullname">Nombre Completo</label>
+            <div *ngIf="f['fullname'].errors && (f['fullname'].touched || f['fullname'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['names'].hasError('required')">El nombre es obligatorio</span>
+                <span *ngIf="f['names'].hasError('pattern')">Debe ser el nombre completo del autor.</span>
+            </div>
+        </div>
+        
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectCountry" formControlName="country" [ngClass]="{'is-invalid': f['country'].errors && (f['country'].touched || f['country'].dirty)}" [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let country of country" [ngValue]="country">{{country.names}}</option>
+            </select>
+            <label for="selectCountry" class="form-label">Nacionalidad</label>
+            <div *ngIf="f['country'].errors && (f['country'].touched || f['country'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['country'].hasError('required')">La nacionalidad es obligatoria</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveAuthor()">{{author && author.id ? 'Actualizar' : 'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

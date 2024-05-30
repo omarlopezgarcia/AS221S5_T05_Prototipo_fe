@@ -8,23 +8,23 @@ import { environment } from 'src/environments/environment';
 })
 export class RolService {
 
-  private url: string = environment.apiUrl+'/';
+  private url: string = environment.apiUrl+'/v2';
 
   constructor(private http: HttpClient) { }
 
   getAll(){
-    return this.http.get<IRol[]>(`${this.url}roles`)
+    return this.http.get<IRol[]>(`${this.url}/roles`)
   }
 
   created(data: IRol){
-    return this.http.post<IRol>(`${this.url}rol/`, data);
+    return this.http.post<IRol>(`${this.url}/rol/`, data);
   }
 
   update(id: number, data: IRol){
-    return this.http.put<IRol>(`${this.url}rol/${id}`, data);
+    return this.http.put<IRol>(`${this.url}/rol/${id}`, data);
   }
 
   delete(id: number){
-    return this.http.delete<void>(`${this.url}rol/${id}`)
+    return this.http.delete<void>(`${this.url}/rol/${id}`)
   }
 }

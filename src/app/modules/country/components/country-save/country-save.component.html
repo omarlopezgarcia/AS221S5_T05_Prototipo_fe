@@ -1,1 +1,30 @@
-<p>country-save works!</p>
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{country && country.id ? 'Editar nacionalidad' : 'Nueva nacionalidad'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="countryForm">
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtNames" formControlName="names" autocomplete="off"
+                [ngClass]="{'is-invalid': f['names'].errors && (f['names'].touched || f['names'].dirty)}">
+            <label for="txtNames">País</label>
+            <div *ngIf="f['names'].errors && (f['names'].touched || f['names'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['names'].hasError('required')">El nombre es obligatorio</span>
+                <span *ngIf="f['names'].hasError('pattern')">La categoría debe ser una válida</span>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtCode" formControlName="code" autocomplete="off"
+                [ngClass]="{'is-invalid': f['code'].errors && (f['code'].touched || f['code'].dirty)}">
+            <label for="txtCode">Código del País</label>
+            <div *ngIf="f['code'].errors && (f['code'].touched || f['code'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['code'].hasError('required')">El código es obligatorio</span>
+                <span *ngIf="f['code'].hasError('pattern')">El código debe ser uno válido</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveCountry()">{{country && country.id ? 'Actualizar' : 'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

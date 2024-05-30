@@ -1,12 +1,12 @@
-import { IAuthor } from "../../author/model/author.model";
-import { ICategory } from "../../category/model/category.model";
+import { IAuthor } from './../../author/model/author.model';
+import { ICategories } from './../../categories/model/categories.model';
 
 export class IBook {
     id!: number;
     title!: string;
-    stock!: number;
+    stock!: string;
     isbn!: string;
-    category!: ICategory[];
+    category!: ICategories[];
     author!: IAuthor[];
     active?: string;
 }
@@ -14,9 +14,8 @@ export class IBook {
 export class IBookDto {
     id!: number;
     title!: string;
-    stock!: number;
+    stock!: string;
     isbn!: string;
     category!: number;
     author!: number;
-    active?: string;
 }

@@ -1,12 +1,10 @@
-export class ICountry {
+export class ICategories {
     id!: number;
     names!: string;
-    code!: string;
     active?: string;
 }
 
-export class ICountryDto {
+export class ICategoriesDto {
     id!: number;
     names!: string;
-    code!: string;
 }

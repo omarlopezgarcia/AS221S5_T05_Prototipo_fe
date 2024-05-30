@@ -5,32 +5,29 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { IAuthor } from '../author/model/author.model';
-import { ICategories } from '../categories/model/categories.model';
 import Swal from 'sweetalert2';
-import { IBook } from './model/book.model';
-import { BookService } from './service/book.service';
-import { BookSaveComponent } from './components/book-save/book-save.component';
-import { ExportService } from './service/export.service';
+import { ICategories } from './model/categories.model';
+import { CategoriesService } from './service/categories.service';
+import { CategoriesSaveComponent } from './components/categories-save/categories-save.component';
 
 @Component({
-  selector: 'app-book',
-  templateUrl: './book.component.html',
+  selector: 'app-categories',
+  templateUrl: './categories.component.html',
   styles: [
   ]
 })
-export class BookComponent implements AfterViewInit, OnInit {
+export class CategoriesComponent implements AfterViewInit, OnInit {
 
   private bsModalRef?: BsModalRef;
-  displayedColumns: string[] = ['title', 'stock', 'isbn', 'category', 'author', 'accion'];
-  dataSource = new MatTableDataSource<IBook>([]);
+  displayedColumns: string[] = ['names', 'accion'];
+  dataSource = new MatTableDataSource<ICategories>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
   txtStatus: string = "Inactivos";
 
-  constructor(private exportService: ExportService, private bookService: BookService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
+  constructor(private categoriesService: CategoriesService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.getActive();
@@ -44,16 +41,6 @@ export class BookComponent implements AfterViewInit, OnInit {
     this.paginator._intl.nextPageLabel = "Siguiente";
     this.paginator._intl.previousPageLabel = "Pagina anterior";
     this.paginator._intl.lastPageLabel = "Última página";
-  }
-
-  exportToExcel(): void {
-    const dataToExport = this.dataSource.data;
-    this.exportService.exportToExcel(dataToExport, 'booksBibliotech');
-  }
-
-  exportToCSV(): void {
-    const dataToExport = this.dataSource.data;
-    this.exportService.exportToCSV(dataToExport, 'booksBibliotech');
   }
 
   applyFilter(event: Event) {
@@ -81,78 +68,78 @@ export class BookComponent implements AfterViewInit, OnInit {
   }
 
   getActive(){
-    this.bookService.getActive().subscribe((res) => {
+    this.categoriesService.getActive().subscribe((res) => {
       this.dataSource.data = res;
       this.txtStatus="Inactivos";
     })
   }
 
   getInactive(){
-    this.bookService.getInactive().subscribe((res) => {
+    this.categoriesService.getInactive().subscribe((res) => {
       this.dataSource.data = res;
       this.txtStatus="Activos";
     })
   }
 
-  removed(content: IBook){
+  removed(content: ICategories){
     Swal.fire({
       title: 'Quieres eliminar este registro?',
-      text: 'Se eliminará el libro '+content.title,
+      text: 'Se eliminará la categoría '+content.names,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, elimínalo!',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.bookService.removed(content.id).subscribe(() => {
-          this.toastr.success('El libro se desactivo correctamente!', 'Libro eliminado');
+        this.categoriesService.removed(content.id).subscribe(() => {
+          this.toastr.success('La categoria se desactivo correctamente!', 'Categoria eliminada');
           this.getActive();
         });
       }
     });
   }
 
-  restore(content: IBook){
+  restore(content: ICategories){
     Swal.fire({
       title: 'Quieres restaurar este registro?',
-      text: 'Se restaurará el libro '+content.title,
+      text: 'Se restaurará la categoria '+content.names,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, restauralo!',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.bookService.restore(content.id).subscribe(() => {
-          this.toastr.success('El libro se restauro correctamente!','Libro activo');
+        this.categoriesService.restore(content.id).subscribe(() => {
+          this.toastr.success('La categoría se restauro correctamente!','Categoria activa');
           this.getInactive();
         })
       }
     });
   }
 
-  deleteUser(content: IBook){
+  deleteUser(content: ICategories){
     Swal.fire({
       title: 'Quieres eliminar este registro?',
-      text: 'Se eliminará el libro '+content.title,
+      text: 'Se eliminará la categoría '+content.names,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, elimínalo!',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.bookService.delete(content.id).subscribe(() => {
-          this.toastr.success('El libro se elimino correctamente!','Libro eliminado');
+        this.categoriesService.delete(content.id).subscribe(() => {
+          this.toastr.success('La categoria se elimino correctamente!','Categoria eliminada');
           this.getInactive();
         })
       }
     });
   }
 
-  openSaveModal(book?: IBook) {
+  openSaveModal(categories?: ICategories) {
     const initialState: ModalOptions = {
-      initialState: {book}
+      initialState: {categories}
     };
-    this.bsModalRef = this.modalService.show(BookSaveComponent, initialState);
+    this.bsModalRef = this.modalService.show(CategoriesSaveComponent, initialState);
     this.bsModalRef.onHidden?.subscribe(() => this.getActive());
   }
 

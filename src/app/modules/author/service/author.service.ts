@@ -8,7 +8,7 @@ import { IAuthor, IAuthorDto } from '../model/author.model';
 })
 export class AuthorService {
 
-  private url: string = environment.apiUrl+'/v2';
+  private url: string = environment.apiUrl+'/v1';
 
   constructor(private http: HttpClient) { }
 

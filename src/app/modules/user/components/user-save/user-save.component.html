@@ -9,7 +9,7 @@
             <label for="txtNames">Nombre</label>
             <div *ngIf="f['names'].errors && (f['names'].touched || f['names'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['names'].hasError('required')">El nombre es obligatorio</span>
-                <span *ngIf="f['names'].hasError('pattern')">El nombre solo debe contener letras mayúsculas y espacios</span>
+                <span *ngIf="f['names'].hasError('pattern')">El nombre solo debe contener letras y espacios</span>
             </div>
         </div>
         <div class="form-floating mb-3">
@@ -18,7 +18,7 @@
             <label for="txtLastName">Apellidos</label>
             <div *ngIf="f['lastName'].errors && (f['lastName'].touched || f['lastName'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['lastName'].hasError('required')">El apellido es obligatorio</span>
-                <span *ngIf="f['lastName'].hasError('pattern')">El apellido solo debe contener letras mayúsculas y espacios</span>
+                <span *ngIf="f['lastName'].hasError('pattern')">El apellido solo debe contener letras y espacios</span>
             </div>
         </div>        
         <div class="form-floating mb-3">
@@ -34,7 +34,7 @@
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="numDocumentNumber" formControlName="documentNumber" autocomplete="off"
-                [ngClass]="{'is-invalid': f['documentNumber'].errors && (f['documentNumber'].touched || f['documentNumber'].dirty)}">
+                [ngClass]="{'is-invalid': f['documentNumber'].errors && (f['documentNumber'].touched || f['documentNumber'].dirty)}" maxLength="12">
             <label for="numDocumentNumber">Nº Documento</label>
             <div *ngIf="f['documentNumber'].errors && (f['documentNumber'].touched || f['documentNumber'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['documentNumber'].hasError('required')">El número de documento es obligatorio</span>
@@ -53,13 +53,12 @@
             </div>
         </div>
         <div class="form-floating mb-3">
-            <select class="form-select" id="selectUbigeo" formControlName="ubigeo" [ngClass]="{'is-invalid': f['ubigeo'].errors && (f['ubigeo'].touched || f['ubigeo'].dirty)}" [compareWith]="compareFn">
-                <option value="" disabled selected>Selecciona...</option>
-                <option *ngFor="let ubigeo of ubigeos" [ngValue]="ubigeo">{{ubigeo.district}}, {{ubigeo.province}}, {{ubigeo.department}}</option>
-            </select>
-            <label for="selectUbigeo" class="form-label">Ubigeo</label>
+            <input type="text" class="form-control" id="txtUbigeo" formControlName="ubigeo" autocomplete="off"
+                [ngClass]="{'is-invalid': f['ubigeo'].errors && (f['ubigeo'].touched || f['ubigeo'].dirty)}">
+            <label for="txtUbigeo">Ubigeo</label>
             <div *ngIf="f['ubigeo'].errors && (f['ubigeo'].touched || f['ubigeo'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['ubigeo'].hasError('required')">El ubigeo es obligatorio</span>
+                <span *ngIf="f['ubigeo'].hasError('pattern')">El ubigeo debe ser uno válido</span>
             </div>
         </div>
         <div class="form-floating mb-3">
@@ -89,7 +88,7 @@
         </div>
         <div class="form-floating mb-3">
             <input type="text" class="form-control" id="txtCellPhone" formControlName="cellPhone" autocomplete="off"
-                [ngClass]="{'is-invalid': f['cellPhone'].errors && (f['cellPhone'].touched || f['cellPhone'].dirty)}">
+                [ngClass]="{'is-invalid': f['cellPhone'].errors && (f['cellPhone'].touched || f['cellPhone'].dirty)}" maxLength="9">
             <label for="txtCellPhone">Número de Celular</label>
             <div *ngIf="f['cellPhone'].errors && (f['cellPhone'].touched || f['cellPhone'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['cellPhone'].hasError('pattern') && !f['cellPhone'].hasError('required')">El número de celular debe empezar con 9 y tener 9 dígitos.</span>

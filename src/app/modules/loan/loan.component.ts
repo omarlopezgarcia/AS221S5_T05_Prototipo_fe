@@ -5,29 +5,29 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { BsModalRef, BsModalService, ModalOptions } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { IUser } from './model/user.model';
-import { UserService } from './service/user.service';
-import { UserSaveComponent } from './components/user-save/user-save.component';
 import Swal from 'sweetalert2';
+import { ILoan } from './model/loan.model';
+import { LoanService } from './service/loan.service';
+import { LoanSaveComponent } from './components/loan-save.component';
 
 @Component({
-  selector: 'app-user',
-  templateUrl: './user.component.html',
+  selector: 'app-loan',
+  templateUrl: './loan.component.html',
   styles: [
   ]
 })
-export class UserComponent implements AfterViewInit, OnInit {
+export class LoanComponent implements AfterViewInit, OnInit {
 
   private bsModalRef?: BsModalRef;
-  displayedColumns: string[] = ['lastName', 'names', 'documentType', 'documentNumber', 'ubigeo', 'email', 'cellPhone', 'birthDate', 'accion'];
-  dataSource = new MatTableDataSource<IUser>([]);
+  displayedColumns: string[] = ['user', 'book', 'amount', 'loanDate', 'returnDate', 'accion'];
+  dataSource = new MatTableDataSource<ILoan>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  txtStatus: string = "Inactivos";
+  txtStatus: string = "Realizados";
 
-  constructor(private userService: UserService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
+  constructor(private loanService: LoanService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.getActive();
@@ -52,7 +52,7 @@ export class UserComponent implements AfterViewInit, OnInit {
   }
 
   toggleStatus(){
-    if (this.txtStatus=="Inactivos") {
+    if (this.txtStatus=="Realizados") {
       this.getInactive();
     } else {
       this.getActive();
@@ -68,78 +68,78 @@ export class UserComponent implements AfterViewInit, OnInit {
   }
 
   getActive(){
-    this.userService.getActive().subscribe((res) => {
+    this.loanService.getActive().subscribe((res) => {
       this.dataSource.data = res;
-      this.txtStatus="Inactivos";
+      this.txtStatus="Realizados";
     })
   }
 
   getInactive(){
-    this.userService.getInactive().subscribe((res) => {
+    this.loanService.getInactive().subscribe((res) => {
       this.dataSource.data = res;
-      this.txtStatus="Activos";
+      this.txtStatus="Pendientes";
     })
   }
 
-  removed(content: IUser){
+  removed(content: ILoan){
     Swal.fire({
-      title: 'Quieres eliminar este registro?',
-      text: 'Se eliminará el usuario '+content.lastName+', '+content.names,
+      title: 'Quieres marcar como realizado este registro?',
+      text: 'Se marcará como realizado el préstamo del usuario!',
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonText: 'Sí, elimínalo!',
+      confirmButtonText: 'Sí, realizado!',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.userService.removed(content.id).subscribe(() => {
-          this.toastr.success('El usuario se desactivo correctamente!', 'Usuario eliminado');
+        this.loanService.removed(content.id).subscribe(() => {
+          this.toastr.success('El préstamo se colocó como hecho correctamente!', 'Préstamo realizado');
           this.getActive();
         });
       }
     });
   }
 
-  restore(content: IUser){
+  restore(content: ILoan){
     Swal.fire({
-      title: 'Quieres restaurar este registro?',
-      text: 'Se restaurará el usuario '+content.lastName+', '+content.names,
+      title: 'Quieres restaurar como pendiente este préstamo?',
+      text: 'Se restaurará el préstamo del usuario!',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, restauralo!',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.userService.restore(content.id).subscribe(() => {
-          this.toastr.success('El usuario se restauro correctamente!','Usuario activo');
+        this.loanService.restore(content.id).subscribe(() => {
+          this.toastr.success('El préstamo se restauró como pendiente correctamente!','Préstamo restaurado como pendiente');
           this.getInactive();
         })
       }
     });
   }
 
-  deleteUser(content: IUser){
+  deleteLoan(content: ILoan){
     Swal.fire({
-      title: 'Quieres eliminar este registro?',
-      text: 'Se eliminará el usuario '+content.lastName+', '+content.names,
+      title: 'Quieres eliminar este préstamo?',
+      text: 'Se eliminará el préstamo del usuario '+content.user,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonText: 'Sí, elimínalo!',
       cancelButtonText: 'Cancelar',
     }).then((result) => {
       if (result.isConfirmed) {
-        this.userService.delete(content.id).subscribe(() => {
-          this.toastr.success('El usuario se elimino correctamente!','Usuario eliminado');
+        this.loanService.delete(content.id).subscribe(() => {
+          this.toastr.success('El préstamo se elimino correctamente!','Préstamo eliminado');
           this.getInactive();
         })
       }
     });
   }
 
-  openSaveModal(user?: IUser) {
+  openSaveModal(loan?: ILoan) {
     const initialState: ModalOptions = {
-      initialState: {user}
+      initialState: {loan}
     };
-    this.bsModalRef = this.modalService.show(UserSaveComponent, initialState);
+    this.bsModalRef = this.modalService.show(LoanSaveComponent, initialState);
     this.bsModalRef.onHidden?.subscribe(() => this.getActive());
   }
 

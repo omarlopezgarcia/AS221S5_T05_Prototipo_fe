@@ -1,5 +1,4 @@
 import { IRol } from "../../rol/model/rol.model";
-import { IUbigeo } from "../../ubigeo/model/ubigeo.model";
 
 export class IUser {
     id!: number;
@@ -8,7 +7,7 @@ export class IUser {
     documentType!: string;
     documentNumber!: string;
     rol!: IRol[];
-    ubigeo!: IUbigeo[];
+    ubigeo!: string;
     email?: string;
     userName!: string;
     passwords!: string;
@@ -24,7 +23,7 @@ export class IUserDto {
     documentType!: string;
     documentNumber!: string;
     rol!: number;
-    ubigeo!: number;
+    ubigeo!: string;
     email?: string;
     userName!: string;
     passwords!: string;

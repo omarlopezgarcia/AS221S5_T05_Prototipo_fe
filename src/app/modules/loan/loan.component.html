@@ -1,0 +1,70 @@
+<h1>Préstamos</h1>
+<div class="d-flex justify-content-between align-items-center">
+    <mat-form-field appearance="outline">
+        <mat-label>Buscar</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ejm: Fecha" #input>
+    </mat-form-field>
+    <div class="d-flex gap-2">
+        <button type="button" class="btn btn-dark" (click)="toggleStatus()">{{txtStatus}}</button>
+        <button type="button" class="btn btn-success" (click)="openSaveModal()" [disabled]="txtStatus=='Pendientes'">Nuevo Préstamo</button>
+    </div>
+</div>
+<div class="mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+        <ng-container matColumnDef="user">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+            <td mat-cell *matCellDef="let element"> {{element.user?.names}}, {{element.user.lastName}} </td>
+        </ng-container>
+        <ng-container matColumnDef="book">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Libro </th>
+            <td mat-cell *matCellDef="let element"> {{element.book.title}} </td>
+        </ng-container>
+        <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Monto </th>
+            <td mat-cell *matCellDef="let element"> {{element.amount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="loanDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Préstamo </th>
+            <td mat-cell *matCellDef="let element"> {{element.loanDate| date:'dd/MM/yy'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="returnDate">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Devolución </th>
+            <td mat-cell *matCellDef="let element"> {{element.returnDate| date:'dd/MM/yy'}} </td>
+        </ng-container>
+        <ng-container matColumnDef="accion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+            <td mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <div *ngIf="txtStatus=='Realizados'; else btnInactive">
+                        <!--<button mat-menu-item (click)="openSaveModal(element)">
+                            <mat-icon>edit</mat-icon>
+                            <span>Editar</span>
+                        </button>-->
+                        <button mat-menu-item (click)="removed(element)">
+                            <mat-icon>check</mat-icon>
+                            <span>Realizado</span>
+                        </button>
+                    </div>
+                    <ng-template #btnInactive>
+                        <button mat-menu-item (click)="restore(element)">
+                            <mat-icon>restore</mat-icon>
+                            <span>Restaurar a Pendiente</span>
+                        </button>
+                        <button mat-menu-item (click)="deleteLoan(element)">
+                            <mat-icon>delete</mat-icon>
+                            <span>Eliminar</span>
+                        </button>
+                    </ng-template>
+                </mat-menu>
+            </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <mat-paginator [pageSizeOptions]="[10,25,50]" showFirstLastButtons>
+    </mat-paginator>
+</div>

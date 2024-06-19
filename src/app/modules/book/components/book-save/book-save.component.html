@@ -22,9 +22,9 @@
             </div>
         </div>
         <div class="form-floating mb-3">
-            <input type="number" class="form-control" id="txtIsbn" formControlName="isbn" autocomplete="off"
+            <input type="text" class="form-control" id="txtIsbn" formControlName="isbn" autocomplete="off"
                 (input)="onIsbnInput($event)"
-                [ngClass]="{'is-invalid': f['isbn'].errors && (f['isbn'].touched || f['isbn'].dirty)}" maxLength="13">
+                [ngClass]="{'is-invalid': f['isbn'].errors && (f['isbn'].touched || f['isbn'].dirty)}" maxLength="13" pattern="[0-9]*">
             <label for="txtIsbn">ISBN</label>
             <div *ngIf="f['isbn'].errors && (f['isbn'].touched || f['isbn'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['isbn'].hasError('required')">El ISBN es obligatorio</span>
@@ -56,6 +56,24 @@
             <label for="selectAuthor" class="form-label">Autor</label>
             <div *ngIf="f['author'].errors && (f['author'].touched || f['author'].dirty)" class="invalid-feedback">
                 <span *ngIf="f['author'].hasError('required')">El author es obligatorio (puedes buscar Anónimo).</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtUrldownload" formControlName="urldownload" autocomplete="off"
+                [ngClass]="{'is-invalid': f['urldownload'].errors && (f['urldownload'].touched || f['urldownload'].dirty)}">
+            <label for="txtUrldownload">Link de Descarga</label>
+            <div *ngIf="f['urldownload'].errors && (f['urldownload'].touched || f['urldownload'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['urldownload'].hasError('required')">El link de descarga del libro es obligatorio</span>
+                <span *ngIf="f['urldownload'].hasError('pattern')">El link de descarga del libro debe ser uno válido</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" id="txtDescription" formControlName="description" autocomplete="off"
+                [ngClass]="{'is-invalid': f['description'].errors && (f['description'].touched || f['description'].dirty)}">
+            <label for="txtDescription">Descripción</label>
+            <div *ngIf="f['description'].errors && (f['description'].touched || f['description'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['description'].hasError('required')">La descripción del libro es obligatorio</span>
+                <span *ngIf="f['description'].hasError('pattern')">La descripción del libro debe ser uno válido</span>
             </div>
         </div>
     </form>

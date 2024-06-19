@@ -8,7 +8,7 @@ import { environment } from 'src/environments/environment';
 })
 export class RolService {
 
-  private url: string = environment.apiUrl+'/v2';
+  private url: string = environment.apiUrl+'/v1';
 
   constructor(private http: HttpClient) { }
 

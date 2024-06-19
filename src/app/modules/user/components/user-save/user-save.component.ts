@@ -4,8 +4,6 @@ import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
 import { IUser, IUserDto } from '../../model/user.model';
 import { UserService } from '../../service/user.service';
-import { UbigeoService } from 'src/app/modules/ubigeo/service/ubigeo.service';
-import { IUbigeo } from 'src/app/modules/ubigeo/model/ubigeo.model';
 import { RolService } from 'src/app/modules/rol/service/rol.service';
 import { IRol } from 'src/app/modules/rol/model/rol.model';
 
@@ -18,21 +16,20 @@ import { IRol } from 'src/app/modules/rol/model/rol.model';
 export class UserSaveComponent implements OnInit {
   public user: IUser = new IUser();
   public userForm: FormGroup = new FormGroup<any>('');
-  public ubigeos: IUbigeo[] = [];
   public roles: IRol[] = [];
 
-  constructor(private rolService: RolService, private ubigeoService: UbigeoService, private userService: UserService, private fb: FormBuilder, private bsModalRef: BsModalRef, private toastr: ToastrService) {}
+
+  constructor(private rolService: RolService, private userService: UserService, private fb: FormBuilder, private bsModalRef: BsModalRef, private toastr: ToastrService) {}
 
   ngOnInit(): void {
     this.getRoles();
-    this.getUbigeos();
     this.initUserForm();
   }
 
   initUserForm(){
     this.userForm = this.fb.group({
-      names: ['', [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÜÑ\s]+$/)]],
-      lastName: ['', [Validators.required, Validators.pattern(/^[A-ZÁÉÍÓÚÜÑ\s]+$/)]],
+      names: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[a-zA-ZÁÉÍÓÚÜÑáéíóúüñ\s]+$/)]],
       documentType: ['', [Validators.required]],
       documentNumber: ['', [Validators.required, Validators.pattern(/^[0-9]+$/), Validators.minLength(8), Validators.maxLength(12), this.documentNumberValidator()]],
       rol: ['', [Validators.required]],
@@ -86,11 +83,6 @@ export class UserSaveComponent implements OnInit {
     };
   }
   
-  getUbigeos(){
-    this.ubigeoService.getAll().subscribe((res) => {
-      this.ubigeos=res;
-    })
-  }
 
   getRoles(){
     this.rolService.getAll().subscribe((res) => {
@@ -110,7 +102,7 @@ export class UserSaveComponent implements OnInit {
     userDto.documentType = this.f['documentType'].value;
     userDto.documentNumber = this.f['documentNumber'].value;
     userDto.rol = this.f['rol'].value.id;
-    userDto.ubigeo = this.f['ubigeo'].value.id;
+    userDto.ubigeo = this.f['ubigeo'].value;
     userDto.email = this.f['email'].value;
     userDto.userName = this.f['userName'].value;
     userDto.passwords = this.f['passwords'].value;

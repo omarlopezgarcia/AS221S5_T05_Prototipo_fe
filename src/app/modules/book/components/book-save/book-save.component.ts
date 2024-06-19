@@ -34,9 +34,11 @@ export class BookSaveComponent implements OnInit {
     this.bookForm = this.fb.group({
       title: ['', [Validators.required]],
       stock: ['', [Validators.required]],
-      isbn: ['', [Validators.required]],
+      isbn: ['', [Validators.required, Validators.pattern(/^[0-9]+$/)]],
       category: ['', [Validators.required]],
       author: ['', [Validators.required]],
+      urldownload: ['', [Validators.required]],
+      description: ['', [Validators.required]],
     });
 
     if(this.book && this.book.id){
@@ -72,6 +74,8 @@ export class BookSaveComponent implements OnInit {
     bookDto.isbn = this.f['isbn'].value;
     bookDto.category = this.f['category'].value.id;
     bookDto.author = this.f['author'].value.id;
+    bookDto.url_download = this.f['urldownload'].value;
+    bookDto.description = this.f['description'].value;
     if (this.book && this.book.id) {
       this.update(this.book.id, bookDto);
     } else {

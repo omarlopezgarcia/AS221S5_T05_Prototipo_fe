@@ -8,6 +8,8 @@ export class IBook {
     isbn!: string;
     category!: ICategories[];
     author!: IAuthor[];
+    url_download!: string;
+    description!: string;
     active?: string;
 }
 
@@ -17,5 +19,7 @@ export class IBookDto {
     stock!: string;
     isbn!: string;
     category!: number;
+    url_download!: string;
+    description!: string;
     author!: number;
 }

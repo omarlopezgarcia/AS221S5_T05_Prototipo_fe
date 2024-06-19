@@ -9,7 +9,7 @@ import { IBook, IBookDto } from '../model/book.model';
 })
 export class BookService {
 
-  private url: string = environment.apiUrl+'/v2';
+  private url: string = environment.apiUrl+'/v1';
 
   constructor(private http: HttpClient) { }
 

@@ -1,0 +1,56 @@
+<div class="modal-header">
+    <h4 class="modal-title pull-left">{{loan && loan.id ? 'Editar préstamo' : 'Nuevo préstamo'}}</h4>
+</div>
+<div class="modal-body">
+    <form [formGroup]="loanForm">
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectUser" formControlName="user" [ngClass]="{'is-invalid': f['user'].errors && (f['user'].touched || f['user'].dirty)}" [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let user of users" [ngValue]="user">{{user.names}}</option>
+            </select>
+            <label for="selectUser" class="form-label">Usuarios</label>
+            <div *ngIf="f['user'].errors && (f['user'].touched || f['user'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['user'].hasError('required')">El usuario es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <select class="form-select" id="selectBook" formControlName="book" [ngClass]="{'is-invalid': f['book'].errors && (f['book'].touched || f['book'].dirty)}" [compareWith]="compareFn">
+                <option value="" disabled selected>Selecciona...</option>
+                <option *ngFor="let book of books" [ngValue]="book">{{book.title}}</option>
+            </select>
+            <label for="selectBook" class="form-label">Libros</label>
+            <div *ngIf="f['book'].errors && (f['book'].touched || f['book'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['book'].hasError('required')">El libro es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="number" class="form-control" id="txtAmount" formControlName="amount" autocomplete="off"
+                [ngClass]="{'is-invalid': f['amount'].errors && (f['amount'].touched || f['amount'].dirty)}">
+            <label for="txtAmount">Monto</label>
+            <div *ngIf="f['amount'].errors && (f['amount'].touched || f['amount'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['amount'].hasError('required')">El monto es obligatorio</span>
+                <span *ngIf="f['amount'].hasError('pattern')">El monto solo puede almacenar números</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dateLoanDate" formControlName="loanDate"
+                [ngClass]="{'is-invalid': f['loanDate'].errors && (f['loanDate'].touched || f['loanDate'].dirty)}">
+            <label for="dateLoanDate">Fecha Préstamo</label>
+            <div *ngIf="f['loanDate'].errors && (f['loanDate'].touched || f['loanDate'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['loanDate'].hasError('required')">La fecha de préstamo es obligatorio</span>
+            </div>
+        </div>
+        <div class="form-floating mb-3">
+            <input type="date" class="form-control" id="dateReturnDate" formControlName="returnDate"
+                [ngClass]="{'is-invalid': f['returnDate'].errors && (f['returnDate'].touched || f['returnDate'].dirty)}">
+            <label for="dateReturnDate">Fecha Devolucion</label>
+            <div *ngIf="f['returnDate'].errors && (f['returnDate'].touched || f['returnDate'].dirty)" class="invalid-feedback">
+                <span *ngIf="f['returnDate'].hasError('required')">La fecha de devolución es obligatorio</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-primary" (click)="saveLoan()">{{loan && loan.id ? 'Actualizar' : 'Registrar'}}</button>
+    <button type="button" class="btn btn-default" (click)="closeModal()">Cancelar</button>
+</div>

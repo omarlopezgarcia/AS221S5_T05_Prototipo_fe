@@ -8,7 +8,7 @@ import { ICountry, ICountryDto } from '../model/country.model';
 })
 export class CountryService {
 
-  private url: string = environment.apiUrl+'/v2';
+  private url: string = environment.apiUrl+'/v1';
 
   constructor(private http: HttpClient) { }
 

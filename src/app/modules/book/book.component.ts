@@ -12,6 +12,8 @@ import { IBook } from './model/book.model';
 import { BookService } from './service/book.service';
 import { BookSaveComponent } from './components/book-save/book-save.component';
 import { ExportService } from './service/export.service';
+import { PreviewDialogComponent } from './bookView/preview-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-book',
@@ -22,7 +24,7 @@ import { ExportService } from './service/export.service';
 export class BookComponent implements AfterViewInit, OnInit {
 
   private bsModalRef?: BsModalRef;
-  displayedColumns: string[] = ['title', 'stock', 'isbn', 'category', 'author', 'accion'];
+  displayedColumns: string[] = ['title', 'stock', 'isbn', 'category', 'author', 'urldownload', 'description', 'accion'];
   dataSource = new MatTableDataSource<IBook>([]);
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -30,7 +32,7 @@ export class BookComponent implements AfterViewInit, OnInit {
 
   txtStatus: string = "Inactivos";
 
-  constructor(private exportService: ExportService, private bookService: BookService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
+  constructor(public dialog: MatDialog, private exportService: ExportService, private bookService: BookService, private _liveAnnouncer: LiveAnnouncer, private modalService: BsModalService, private toastr: ToastrService) {}
   
   ngOnInit(): void {
     this.getActive();
@@ -154,6 +156,12 @@ export class BookComponent implements AfterViewInit, OnInit {
     };
     this.bsModalRef = this.modalService.show(BookSaveComponent, initialState);
     this.bsModalRef.onHidden?.subscribe(() => this.getActive());
+  }
+
+  openPreview(url: string): void {
+    this.dialog.open(PreviewDialogComponent, {
+      data: { url: url }
+    });
   }
 
 }

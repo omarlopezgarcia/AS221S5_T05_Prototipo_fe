@@ -2,8 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, AbstractControl } from '@angular/forms';
 import { BsModalRef } from 'ngx-bootstrap/modal';
 import { ToastrService } from 'ngx-toastr';
-import { IUbigeo } from 'src/app/modules/ubigeo/model/ubigeo.model';
-import { UbigeoService } from 'src/app/modules/ubigeo/service/ubigeo.service';
 import { IRol } from '../../model/rol.model';
 import { RolService } from '../../service/rol.service';
 

@@ -8,12 +8,9 @@ import { BrowserAnimationsModule, provideAnimations } from '@angular/platform-br
 import { ToastrModule, provideToastr } from 'ngx-toastr';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { LayoutComponent } from './layout/layout.component';
-import { SidebarComponent } from './shared/components/sidebar/sidebar.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { NavbarComponent } from './shared/components/navbar/navbar.component';
-import { UbigeoSaveComponent } from './modules/ubigeo/components/ubigeo-save/ubigeo-save.component';
 import { RolComponent } from './modules/rol/rol.component';
-import { UbigeoComponent } from './modules/ubigeo/ubigeo.component';
 import { UserComponent } from './modules/user/user.component';
 import { HttpClientModule } from '@angular/common/http';
 import {MatTableModule} from '@angular/material/table';
@@ -37,18 +34,19 @@ import { AuthorComponent } from './modules/author/author.component';
 import { AuthorSaveComponent } from './modules/author/components/author-save/author-save.component';
 import { BookSaveComponent } from './modules/book/components/book-save/book-save.component';
 import { BookComponent } from './modules/book/book.component';
+import { LoanSaveComponent } from './modules/loan/components/loan-save.component';
+import { LoanComponent } from './modules/loan/loan.component';
+import { PreviewDialogComponent } from './modules/book/bookView/preview-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
     AppComponent,
     LayoutComponent,
-    SidebarComponent,
     FooterComponent,
     NavbarComponent,
     RolComponent,
-    UbigeoComponent,
     UserComponent,
-    UbigeoSaveComponent,
     RolSaveComponent,
     UserSaveComponent,
     CategoriesComponent,
@@ -58,7 +56,10 @@ import { BookComponent } from './modules/book/book.component';
     AuthorComponent,
     AuthorSaveComponent,
     BookComponent,
-    BookSaveComponent
+    BookSaveComponent,
+    LoanComponent,
+    LoanSaveComponent,
+    PreviewDialogComponent
 
   ],
   imports: [
@@ -75,6 +76,7 @@ import { BookComponent } from './modules/book/book.component';
     MatSortModule,
     MatIconModule,
     MatMenuModule,
+    MatDialogModule,
     SweetAlert2Module.forRoot(),
     ButtonsModule.forRoot(),
     ModalModule.forRoot(),

@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <style>
-    /* Estilos generales */
     body {
       font-family: "Roboto", sans-serif;
       margin: 0;
@@ -211,7 +210,6 @@
       opacity: 0 !important;
     }
     
-    /* Nueva clase activa */
     .active {
       border: 2px solid #52B384;
       border-radius: 4px;
@@ -226,8 +224,9 @@
             <span class="book">Book</span>
         </div>
         <ul class="navigation">
+            <li id="inicio" class="parent"><a class="link" routerLink="inicio"><i class="fas fa-home"></i><span class="align-middle">Inicio</span></a></li>
+            <li li id="loan" class="parent"><a class="link" routerLink="loan"><i class="fas fa-address-book"></i><span class="align-middle">Préstamos</span></a></li>
             <li id="users" class="parent"><a class="link" routerLink="users"><i class="fas fa-users"></i><span class="align-middle">Usuarios</span></a></li>
-            <li id="ubigeos" class="parent"><a class="link2" routerLink="ubigeos"><i class="fas fa-location-dot"></i><span class="align-middle">Ubigeos</span></a></li>
             <li id="roles" class="parent"><a class="link2" routerLink="roles"><i class="fas fa-unlock"></i><span class="align-middle">Roles</span></a></li>
             <li id="book" class="parent"><a class="link" routerLink="book"><i class="fas fa-book"></i><span class="align-middle">Libros</span></a></li>
             <li id="categories" class="parent"><a class="link2" routerLink="categories"><i class="fas fa-stream"></i><span class="align-middle">Categorias</span></a></li>
